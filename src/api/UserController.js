@@ -6,9 +6,11 @@ import express from 'express';
 
 export default class {
     userService = undefined;
+    emailService = undefined;
 
-    constructor(userDAO) {
-        this.userService = new UserService(userDAO);
+    constructor(userService, emailService) {
+        this.userService = userService;
+        this.emailService = emailService;
     }
 
     router() {
@@ -43,6 +45,8 @@ export default class {
             email,
             password
         });
+        await this.emailService.sendWelcomeEmail({ name }, email);
+
         return res.status(201).send();
     }
 }

@@ -1,7 +1,9 @@
 import 'express-async-errors';
 
+import EmailService from './service/EmailService.js';
 import UserController from './api/UserController.js';
 import UserDAO from './dao/UserDAO.js';
+import UserService from './service/UserService.js';
 import cors from 'cors';
 import errorHandler from './api/middleware/errorHandler.js';
 import express from 'express';
@@ -16,7 +18,11 @@ async function bootstrap() {
     app.use(express.json());
 
     const userDAO = new UserDAO(db);
-    const userController = new UserController(userDAO);
+
+    const emailService = new EmailService();
+    const userService = new UserService(userDAO);
+
+    const userController = new UserController(userService, emailService);
 
     app.use('/api/users', userController.router());
 
