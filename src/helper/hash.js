@@ -5,7 +5,7 @@ export function hash(str) {
     return hash;
 }
 
-export function compare(plain, hahs) {
-    const matches = bcryptjs.compareSync(plain, hahs);
+export function compare(plain, hash) {
+    const matches = bcryptjs.compareSync(plain, hash);
     return matches;
 }
