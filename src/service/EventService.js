@@ -4,10 +4,20 @@ import Event from '../model/Event.js';
 export default class {
     eventDAO = undefined;
     organizationDAO = undefined;
+    userDAO = undefined;
 
-    constructor(eventDAO, organizationDAO) {
+    constructor(eventDAO, organizationDAO, userDAO) {
         this.eventDAO = eventDAO;
         this.organizationDAO = organizationDAO;
+        this.userDAO = userDAO;
+    }
+
+    async approve({ userID, eventID }) {
+        const user = await this.userDAO.find({ id: userID });
+        if (!user || !user.isAdmin) {
+            throw new Unauthorized('Credênciais inválidas');
+        }
+        await this.eventDAO.approve(eventID);
     }
 
     async create({ userID, name, description, type, reason, pixCode }) {

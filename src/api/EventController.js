@@ -14,6 +14,7 @@ export default class {
         const router = express.Router();
 
         router.post('/create', authenticate, validateCreate, (req, res) => this.create(req, res));
+        router.post('/approve/:id', authenticate, (req, res) => this.approve(req, res));
         router.get('/param/types', (req, res) => this.getTypes(req, res));
         router.get('/param/reasons', (req, res) => this.getReasons(req, res));
         router.get('/public/list', authenticate, (req, res) => this.listPublicEvents(req, res));
@@ -33,6 +34,11 @@ export default class {
             pixCode: pix_code
         });
         return res.status(201).send();
+    }
+
+    async approve(req, res) {
+        this.eventService.approve({ userID: req.userID, eventID: req.params.id });
+        return res.status(200).send();
     }
 
     async getTypes(_, res) {

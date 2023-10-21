@@ -10,6 +10,21 @@ export default class {
         this.db = db;
     }
 
+    async approve(eventID) {
+        await this.db.run(
+            `
+                UPDATE
+                    events
+                SET
+                    is_active = 1,
+                    updated_at = ?
+                WHERE
+                    id = ?;
+            `,
+            [formatDate(new Date()), eventID]
+        );
+    }
+
     async save(event) {
         await this.db.run(
             `

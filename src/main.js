@@ -28,7 +28,7 @@ async function bootstrap() {
     const userDAO = new UserDAO(db);
 
     const emailService = new EmailService();
-    const eventService = new EventService(eventDAO, organizationDAO);
+    const eventService = new EventService(eventDAO, organizationDAO, userDAO);
     const organizationService = new OrganizationService(userDAO, organizationDAO);
     const userService = new UserService(userDAO);
 

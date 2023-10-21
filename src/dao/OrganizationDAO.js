@@ -12,6 +12,21 @@ export default class {
         this.db = db;
     }
 
+    async approve(organizationID) {
+        await this.db.run(
+            `
+                UPDATE
+                    organizations
+                SET
+                    is_active = 1,
+                    updated_at = ?
+                WHERE
+                    id = ?;
+            `,
+            [formatDate(new Date()), organizationID]
+        );
+    }
+
     async save(organization) {
         await this.db.run(
             `

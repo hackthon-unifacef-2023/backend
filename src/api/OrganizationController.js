@@ -15,10 +15,16 @@ export default class {
     router() {
         const router = express.Router();
 
+        router.post('/approve/:id', authenticate, (req, res) => this.approve(req, res));
         router.get('/list', authenticate, (req, res) => this.list(req, res));
         router.post('/create', validateCreate, (req, res) => this.create(req, res));
 
         return router;
+    }
+
+    async approve(req, res) {
+        this.organizationService.approve({ userID: req.userID, organizationID: req.params.id });
+        return res.status(200).send();
     }
 
     async list(req, res) {
