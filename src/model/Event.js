@@ -1,5 +1,28 @@
 import { v4 as uuid } from 'uuid';
 
+const TYPES = {
+    AUXILO_VOLUNTARIO: 'Auxílio voluntário',
+    AUXILO_FINANCEIRO: 'Auxílio financeiro'
+};
+
+const REASONS = {
+    REFLORESTAMENTO: 'Reflorestamento',
+    DESASTRES_NATURAIS: 'Desastres naturais',
+    SERVIÇOS_SOCIAIS: 'Serviços sociais',
+    COLETA_DE_LIXO: 'Coleta de lixo',
+    SAUDE_DA_COMUNIDADE: 'Sáude da comunidade',
+    CAUSA_ANIMAL: 'Causa animal'
+};
+
+const REASON_POINTS = {
+    REFLORESTAMENTO: 10.4,
+    DESASTRES_NATURAIS: 9.4,
+    SERVIÇOS_SOCIAIS: 9.6,
+    COLETA_DE_LIXO: 9.1,
+    SAUDE_DA_COMUNIDADE: 12.8,
+    CAUSA_ANIMAL: 13.4
+};
+
 export default class {
     id = undefined;
     organizationID = undefined;
@@ -13,13 +36,21 @@ export default class {
     createdAt = undefined;
     updatedAt = undefined;
 
-    constructor(organizationID, name, points, description, type, reason, pixCode) {
+    static getTypes() {
+        return TYPES;
+    }
+
+    static getReasons() {
+        return REASONS;
+    }
+
+    constructor(organizationID, name, description, type, reason, pixCode) {
         const now = new Date();
 
         this.id = uuid();
         this.organizationID = organizationID;
         this.name = name;
-        this.points = points;
+        this.points = REASON_POINTS[type];
         this.description = description;
         this.type = type;
         this.reason = reason;

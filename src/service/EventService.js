@@ -21,13 +21,18 @@ export default class {
         return event;
     }
 
-    async list({ userID }) {
+    async listPublicEvents() {
+        const events = await this.eventDAO.list(organization.id);
+        return events;
+    }
+
+    async listOrganizationEvents({ userID }) {
         const organization = await this.organizationDAO.find({ userID: userID });
         if (!organization) {
             throw new BadRequest('A organização não existe');
         }
 
-        const events = await this.eventDAO.list(organization.id);
+        const events = await this.eventDAO.listOrganizationEvents(organization.id);
         return events;
     }
 }

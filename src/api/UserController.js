@@ -44,8 +44,6 @@ export default class {
             email,
             password
         });
-        await this.emailService.sendWelcomeEmail({ name }, email);
-
         return res.status(201).send();
     }
 }

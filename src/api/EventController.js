@@ -1,3 +1,4 @@
+import Event from '../model/Event.js';
 import authenticate from './middleware/authenticate.js';
 import express from 'express';
 import { validateCreate } from './EventValidation.js';
@@ -13,7 +14,10 @@ export default class {
         const router = express.Router();
 
         router.post('/create', authenticate, validateCreate, (req, res) => this.create(req, res));
-        router.get('/list', authenticate, (req, res) => this.list(req, res));
+        router.get('/param/types', (req, res) => this.getTypes(req, res));
+        router.get('/param/reasons', (req, res) => this.getReasons(req, res));
+        router.get('/public/list', authenticate, (req, res) => this.listPublicEvents(req, res));
+        router.get('/organization/list', authenticate, (req, res) => this.listOrganizationEvents(req, res));
 
         return router;
     }
@@ -33,8 +37,23 @@ export default class {
         return res.status(201).send();
     }
 
-    async list(req, res) {
-        const events = await this.eventService.list({ userID: req.userID });
+    async getTypes(_, res) {
+        const types = Event.getTypes();
+        return res.json({ types: types });
+    }
+
+    async getReasons(_, res) {
+        const reasons = Event.getReasons();
+        return res.json({ reasons: reasons });
+    }
+
+    async listPublicEvents(_, res) {
+        const events = await this.eventService.listPublicEvents();
+        return res.json({ events: events });
+    }
+
+    async listOrganizationEvents(req, res) {
+        const events = await this.eventService.listOrganizationEvents({ userID: req.userID });
         return res.json({ events: events });
     }
 }
