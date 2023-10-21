@@ -48,3 +48,13 @@ CREATE TABLE events(
     updated_at      varchar(24)  NOT NULL,
     FOREIGN KEY(organization_id) REFERENCES organization_addresses(id)
 );
+
+CREATE TABLE user_events(
+    id         varchar(36)  NOT NULL PRIMARY KEY,
+    user_id    varchar(36)  NOT NULL,
+    event_id   varchar(36)  NOT NULL,
+    created_at varchar(24)  NOT NULL,
+    updated_at varchar(24)  NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(event_id) REFERENCES events(id)
+);

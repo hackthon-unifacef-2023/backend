@@ -12,6 +12,14 @@ export default class {
         this.userDAO = userDAO;
     }
 
+    async enroll({ userID, eventID }) {
+        const user = await this.userDAO.find({ id: userID });
+        if (!user || user.isAdmin) {
+            throw new Unauthorized('Credênciais inválidas');
+        }
+        await this.eventDAO.enroll(userID, eventID);
+    }
+
     async approve({ userID, eventID }) {
         const user = await this.userDAO.find({ id: userID });
         if (!user || !user.isAdmin) {

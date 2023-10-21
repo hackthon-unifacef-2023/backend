@@ -2,12 +2,23 @@ import Event from '../model/Event.js';
 import OrganizationEventDTO from '../dto/OrganizationEvent.js';
 import PublicEventDTO from '../dto/PublicEvent.js';
 import { formatDate } from '../helper/date.js';
+import { v4 as uuid } from 'uuid';
 
 export default class {
     db = undefined;
 
     constructor(db) {
         this.db = db;
+    }
+
+    async enroll(userID, eventID) {
+        await this.db.run(
+            `
+                INSERT INTO user_events (id, user_id, event_id, created_at, updated_at)
+                VALUES(?, ?, ?, ?, ?);
+            `,
+            [uuid(), userID, eventID, formatDate(new Date()), formatDate(new Date())]
+        );
     }
 
     async approve(eventID) {
@@ -73,7 +84,7 @@ export default class {
                     events e
                 JOIN
                     organizations o ON o.id = e.organization_id AND o.is_active IS TRUE
-                JOIN
+                LEFT JOIN
                     organization_addresses oa ON oa.organization_id = o.id
                 JOIN
                     users u ON u.id = o.user_id 
