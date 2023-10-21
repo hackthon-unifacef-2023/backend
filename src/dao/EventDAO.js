@@ -1,5 +1,6 @@
 import Event from '../model/Event.js';
 import OrganizationEvent from '../dto/OrganizationEvent.js';
+import PublicEvent from '../dto/PublicEvent.js';
 
 export default class {
     db = undefined;
@@ -11,7 +12,7 @@ export default class {
     async save(event) {
         await this.db.run(
             `
-                INSERT INTO events (id, organization_id, name, points, description, "type", reason, pix_code, is_active, created_at, updated_at)
+                INSERT INTO events (id, organization_id, name, points, description, type, reason, pix_code, is_active, created_at, updated_at)
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             `,
             [
@@ -44,7 +45,7 @@ export default class {
                     e.type,
                     e.reason,
                     e.pix_code,
-                    e.is_active,
+                    o.id,
                     u.name,
                     oa.city,
                     oa.state,
@@ -60,26 +61,27 @@ export default class {
                     users u ON u.id = o.user_id 
                 WHERE
                     e.is_active IS TRUE
-                    AND e.organization_id = ?
                 ORDER BY
                     e.created_at DESC;
             `,
-            [userID]
+            []
         );
         for (const row of rows) {
-            const event = Event.enrich(
-                row.id,
-                row.organization_id,
-                row.name,
-                row.points,
-                row.description,
-                row.type,
-                row.reason,
-                row.pix_code,
-                row.is_active,
-                row.created_at,
-                row.updated_at
-            );
+            const event = new PublicEvent();
+            event.id = row.id;
+            event.organizationID = row.organization_id;
+            event.name = row.name;
+            event.points = row.points;
+            event.description = row.description;
+            event.type = types[row.type];
+            event.reason = reasons[row.reason];
+            event.pixCode = row.pix_code;
+            event.organizationID = row.id;
+            event.organizationName = row.name;
+            event.organizationCity = row.city;
+            event.organizationState = row.state;
+            event.createdAt = row.created_at;
+            event.updatedAt = row.updated_at;
             events.push(event);
         }
         return events;

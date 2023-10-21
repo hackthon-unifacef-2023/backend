@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
 const TYPES = {
-    AUXILO_VOLUNTARIO: 'Auxílio voluntário',
-    AUXILO_FINANCEIRO: 'Auxílio financeiro'
+    AUXILIO_VOLUNTARIO: 'Auxílio voluntário',
+    AUXILIO_FINANCEIRO: 'Auxílio financeiro'
 };
 
 const REASONS = {
@@ -50,7 +50,7 @@ export default class {
         this.id = uuid();
         this.organizationID = organizationID;
         this.name = name;
-        this.points = REASON_POINTS[type];
+        this.points = REASON_POINTS[type] || 10;
         this.description = description;
         this.type = type;
         this.reason = reason;

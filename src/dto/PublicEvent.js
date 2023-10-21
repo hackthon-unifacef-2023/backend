@@ -9,6 +9,8 @@ export default class {
     pixCode = undefined;
     organizationID = undefined;
     organizationName = undefined;
+    organizationCity = undefined;
+    organizationState = undefined;
     createdAt = undefined;
     updatedAt = undefined;
 }

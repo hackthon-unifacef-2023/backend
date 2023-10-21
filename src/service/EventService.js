@@ -10,19 +10,19 @@ export default class {
         this.organizationDAO = organizationDAO;
     }
 
-    async create({ userID, name, points, description, type, reason, pixCode }) {
+    async create({ userID, name, description, type, reason, pixCode }) {
         const organization = await this.organizationDAO.find({ userID: userID });
         if (!organization) {
             throw new BadRequest('A organização não existe');
         }
-        const event = new Event(organization.id, name, points, description, type, reason, pixCode);
+        const event = new Event(organization.id, name, description, type, reason, pixCode);
 
         await this.eventDAO.save(event);
         return event;
     }
 
     async listPublicEvents() {
-        const events = await this.eventDAO.list(organization.id);
+        const events = await this.eventDAO.listPublicEvents();
         return events;
     }
 

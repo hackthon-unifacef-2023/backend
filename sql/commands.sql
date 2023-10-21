@@ -42,7 +42,7 @@ CREATE TABLE events(
     description     text         NOT NULL,
     type            varchar(36)  NOT NULL, -- (COLETA_FINANCEIRA, FORCA_DE_TRABALHO)
     reason          varchar(36)  NOT NULL, -- (COLETA_DE_LIXO, ALIMENTACAO, REFLORESTAMENTO)
-    pix_code        varchar(256) NOT NULL,
+    pix_code        varchar(256),
     is_active       int          NOT NULL,
     created_at      varchar(24)  NOT NULL,
     updated_at      varchar(24)  NOT NULL,

@@ -1,7 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 
 const SECRET = '🔓';
-const EXPIRES_IN = '1h';
+const EXPIRES_IN = '24h';
 
 export function sign(data) {
     const token = jsonwebtoken.sign(data, SECRET, { expiresIn: EXPIRES_IN });
