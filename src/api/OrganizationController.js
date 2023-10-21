@@ -53,7 +53,6 @@ export default class {
             zipCode: zip_code,
             district: district
         });
-
         return res.status(201).send();
     }
 }

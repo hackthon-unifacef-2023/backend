@@ -24,4 +24,18 @@ export default class {
         this.createdAt = now;
         this.updatedAt = now;
     }
+
+    static enrich(id, city, state, street, number, zipCode, district, createdAt, updatedAt) {
+        const address = Object.create(this.prototype);
+        this.id = id;
+        this.city = city;
+        this.state = state;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.district = district;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        return address;
+    }
 }

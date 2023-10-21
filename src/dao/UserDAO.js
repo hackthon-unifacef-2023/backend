@@ -39,7 +39,10 @@ export default class {
 
     async save(user) {
         await this.db.run(
-            'INSERT INTO users (id, type, name, email, password, is_admin, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+            `
+            INSERT INTO users (id, type, name, email, password, is_admin, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+            `,
             [user.id, user.type, user.name, user.email, user.password, user.isAdmin, user.createdAt, user.updatedAt]
         );
     }

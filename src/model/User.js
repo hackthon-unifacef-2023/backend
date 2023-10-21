@@ -39,7 +39,7 @@ export default class {
     }
 
     static ORGANIZATION_TYPE() {
-        return 'ORGANIZATION';
+        return 'ORGANIZACAO';
     }
 
     passwordMatches(password) {
