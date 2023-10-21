@@ -1,4 +1,5 @@
 import BadRequest from '../error/BadRequest.js';
+import Unauthorized from '../error/Unauthorized.js';
 import User from '../model/User.js';
 import { sign } from '../helper/jwt.js';
 
@@ -12,22 +13,23 @@ export default class {
     async auth({ email, password }) {
         const user = await this.userDAO.find({ email: email });
         if (!user) {
-            throw new BadRequest('Credênciais inválidas');
+            throw new Unauthorized('Credênciais inválidas');
         }
         if (!user.passwordMatches(password)) {
-            throw new BadRequest('Credênciais inválidas');
+            throw new Unauthorized('Credênciais inválidas');
         }
         const token = sign({ id: user.id });
         return token;
     }
 
-    async create({ name, email, password }) {
+    async create({ type, name, email, password }) {
         const emailInUse = await this.userDAO.find({ email: email });
         if (emailInUse) {
             throw new BadRequest('O e-mail já está em uso');
         }
-        const user = new User(name, email, password);
+        const user = new User(type, name, email, password);
 
         await this.userDAO.save(user);
+        return user;
     }
 }

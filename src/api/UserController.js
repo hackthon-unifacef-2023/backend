@@ -1,6 +1,5 @@
 import { validateAuth, validateCreate } from './UserValidation.js';
 
-import UserService from '../service/UserService.js';
 import authenticate from './middleware/authenticate.js';
 import express from 'express';
 
