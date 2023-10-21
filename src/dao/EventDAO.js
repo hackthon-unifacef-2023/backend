@@ -1,6 +1,7 @@
 import Event from '../model/Event.js';
-import OrganizationEvent from '../dto/OrganizationEvent.js';
-import PublicEvent from '../dto/PublicEvent.js';
+import OrganizationEventDTO from '../dto/OrganizationEvent.js';
+import PublicEventDTO from '../dto/PublicEvent.js';
+import { formatDate } from '../helper/date.js';
 
 export default class {
     db = undefined;
@@ -25,14 +26,16 @@ export default class {
                 event.reason,
                 event.pixCode,
                 event.isActive,
-                event.createdAt,
-                event.updatedAt
+                formatDate(event.createdAt),
+                formatDate(event.updatedAt)
             ]
         );
     }
 
     async listPublicEvents() {
         const events = [];
+        const types = Event.getTypes();
+        const reasons = Event.getReasons();
 
         const rows = await this.db.all(
             `
@@ -67,7 +70,7 @@ export default class {
             []
         );
         for (const row of rows) {
-            const event = new PublicEvent();
+            const event = new PublicEventDTO();
             event.id = row.id;
             event.organizationID = row.organization_id;
             event.name = row.name;
@@ -106,7 +109,7 @@ export default class {
             [userID]
         );
         for (const row of rows) {
-            const event = new OrganizationEvent();
+            const event = new OrganizationEventDTO();
             event.id = row.id;
             event.organization_id = row.organization_id;
             event.name = row.name;

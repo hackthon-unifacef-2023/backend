@@ -19,7 +19,7 @@ export default class {
             throw new Unauthorized('Credênciais inválidas');
         }
         const token = sign({ id: user.id });
-        return token;
+        return { token: token, isAdmin: user.isAdmin };
     }
 
     async create({ type, name, email, password }) {

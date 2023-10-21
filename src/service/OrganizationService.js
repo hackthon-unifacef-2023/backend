@@ -2,9 +2,11 @@ import Address from '../model/Address.js';
 import Organization from '../model/Organization.js';
 
 export default class {
+    userDAO = undefined;
     organizationDAO = undefined;
 
-    constructor(organizationDAO) {
+    constructor(userDAO, organizationDAO) {
+        this.userDAO = userDAO;
         this.organizationDAO = organizationDAO;
     }
 
@@ -16,5 +18,14 @@ export default class {
         }
         await this.organizationDAO.save(organization);
         return organization;
+    }
+
+    async list({ userID }) {
+        const user = await this.userDAO.find({ id: userID });
+        if (!user || !user.isAdmin) {
+            throw new Unauthorized('Credênciais inválidas');
+        }
+        const organizations = await this.organizationDAO.list();
+        return organizations;
     }
 }

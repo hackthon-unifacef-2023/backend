@@ -1,4 +1,5 @@
 import User from '../model/User.js';
+import { formatDate } from '../helper/date.js';
 
 export default class {
     db = undefined;
@@ -31,7 +32,7 @@ export default class {
             row.name,
             row.email,
             row.password,
-            row.is_admin,
+            row.is_admin === 1,
             row.created_at,
             row.updated_at
         );
@@ -43,7 +44,16 @@ export default class {
             INSERT INTO users (id, type, name, email, password, is_admin, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?);
             `,
-            [user.id, user.type, user.name, user.email, user.password, user.isAdmin, user.createdAt, user.updatedAt]
+            [
+                user.id,
+                user.type,
+                user.name,
+                user.email,
+                user.password,
+                user.isAdmin,
+                formatDate(user.createdAt),
+                formatDate(user.updatedAt)
+            ]
         );
     }
 }

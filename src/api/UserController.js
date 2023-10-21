@@ -1,5 +1,6 @@
 import { validateAuth, validateCreate } from './UserValidation.js';
 
+import User from '../model/User.js';
 import authenticate from './middleware/authenticate.js';
 import express from 'express';
 
@@ -29,17 +30,18 @@ export default class {
     async auth(req, res) {
         const { email, password } = req.body;
 
-        const token = await this.userService.auth({
+        const { token, isAdmin } = await this.userService.auth({
             email,
             password
         });
-        return res.status(200).json({ token: token });
+        return res.status(200).json({ token: token, is_admin: isAdmin });
     }
 
     async create(req, res) {
         const { name, email, password } = req.body;
 
         await this.userService.create({
+            type: User.DONATOR_TYPE(),
             name,
             email,
             password

@@ -16,7 +16,7 @@ export default class {
         router.post('/create', authenticate, validateCreate, (req, res) => this.create(req, res));
         router.get('/param/types', (req, res) => this.getTypes(req, res));
         router.get('/param/reasons', (req, res) => this.getReasons(req, res));
-        router.get('/public/list', (req, res) => this.listPublicEvents(req, res));
+        router.get('/public/list', authenticate, (req, res) => this.listPublicEvents(req, res));
         router.get('/organization/list', authenticate, (req, res) => this.listOrganizationEvents(req, res));
 
         return router;

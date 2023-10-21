@@ -29,7 +29,7 @@ async function bootstrap() {
 
     const emailService = new EmailService();
     const eventService = new EventService(eventDAO, organizationDAO);
-    const organizationService = new OrganizationService(organizationDAO);
+    const organizationService = new OrganizationService(userDAO, organizationDAO);
     const userService = new UserService(userDAO);
 
     const eventController = new EventController(eventService);

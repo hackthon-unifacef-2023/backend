@@ -1,4 +1,5 @@
 import User from '../model/User.js';
+import authenticate from './middleware/authenticate.js';
 import express from 'express';
 import { validateCreate } from './OrganizationValidation.js';
 
@@ -14,9 +15,15 @@ export default class {
     router() {
         const router = express.Router();
 
+        router.get('/list', authenticate, (req, res) => this.list(req, res));
         router.post('/create', validateCreate, (req, res) => this.create(req, res));
 
         return router;
+    }
+
+    async list(req, res) {
+        const organizations = await this.organizationService.list({ userID: req.userID });
+        return res.json({ organizations: organizations });
     }
 
     async create(req, res) {

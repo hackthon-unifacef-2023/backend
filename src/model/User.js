@@ -38,6 +38,10 @@ export default class {
         return user;
     }
 
+    static DONATOR_TYPE() {
+        return 'DOADOR';
+    }
+
     static ORGANIZATION_TYPE() {
         return 'ORGANIZACAO';
     }
