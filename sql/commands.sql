@@ -46,5 +46,5 @@ CREATE TABLE events(
     is_active       int          NOT NULL,
     created_at      varchar(24)  NOT NULL,
     updated_at      varchar(24)  NOT NULL,
-    FOREIGN KEY(organization_id) REFERENCES events(id)
+    FOREIGN KEY(organization_id) REFERENCES organization_addresses(id)
 );
