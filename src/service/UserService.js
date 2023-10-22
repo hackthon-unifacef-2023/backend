@@ -10,6 +10,15 @@ export default class {
         this.userDAO = userDAO;
     }
 
+    async listTop10({ userID }) {
+        const user = await this.userDAO.find({ id: userID });
+        if (!user || user.isAdmin) {
+            throw new Unauthorized('Credênciais inválidas');
+        }
+        const top10 = await this.userDAO.listTop10();
+        return top10;
+    }
+
     async auth({ email, password }) {
         const user = await this.userDAO.find({ email: email });
         if (!user) {

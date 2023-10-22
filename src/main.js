@@ -33,7 +33,7 @@ async function bootstrap() {
     const userService = new UserService(userDAO);
 
     const eventController = new EventController(eventService);
-    const userController = new UserController(userService, emailService);
+    const userController = new UserController(userDAO, userService, emailService);
     const organizationController = new OrganizationController(userService, organizationService);
 
     app.use('/api/events', eventController.router());

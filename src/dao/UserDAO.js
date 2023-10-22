@@ -1,3 +1,4 @@
+import Top10User from '../dto/Top10User.js';
 import User from '../model/User.js';
 import { formatDate } from '../helper/date.js';
 
@@ -6,6 +7,42 @@ export default class {
 
     constructor(db) {
         this.db = db;
+    }
+
+    async listTop10() {
+        const top10Users = [];
+
+        const rows = await this.db.all(
+            `
+                SELECT
+                    u.id,
+                    u.name,
+                    SUM(e.points) points
+                FROM
+                    user_events ue
+                JOIN
+                    events e ON e.id = ue.event_id
+                JOIN
+                    users u ON u.id = ue.user_id
+                WHERE
+                    u.is_admin IS FALSE
+                GROUP BY
+                    u.id,
+                    u.name
+                ORDER BY
+                    SUM(e.points) DESC
+                LIMIT 10;
+            `,
+            []
+        );
+        for (const row of rows) {
+            const top10User = new Top10User();
+            top10User.id = row.id;
+            top10User.name = row.name;
+            top10User.points = row.points;
+            top10Users.push(top10User);
+        }
+        return top10Users;
     }
 
     async find({ id, email }) {
