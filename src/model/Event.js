@@ -50,7 +50,7 @@ export default class {
         this.id = uuid();
         this.organizationID = organizationID;
         this.name = name;
-        this.points = REASON_POINTS[type] || 10;
+        this.points = REASON_POINTS[reason] || 10;
         this.description = description;
         this.type = type;
         this.reason = reason;
