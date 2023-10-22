@@ -66,16 +66,16 @@ export default class {
         const rows = await this.db.all(
             `
                 SELECT
-                    e.id,
+                    e.id AS eid,
                     e.organization_id,
-                    e.name,
+                    e.name AS ename,
                     e.points,
                     e.description,
                     e.type,
                     e.reason,
                     e.pix_code,
-                    o.id,
-                    u.name,
+                    o.id AS oid,
+                    u.name AS uname,
                     oa.city,
                     oa.state,
                     e.created_at,
@@ -97,16 +97,16 @@ export default class {
         );
         for (const row of rows) {
             const event = new PublicEventDTO();
-            event.id = row.id;
+            event.id = row.eid;
             event.organizationID = row.organization_id;
-            event.name = row.name;
+            event.name = row.ename;
             event.points = row.points;
             event.description = row.description;
             event.type = types[row.type];
             event.reason = reasons[row.reason];
             event.pixCode = row.pix_code;
-            event.organizationID = row.id;
-            event.organizationName = row.name;
+            event.organizationID = row.oid;
+            event.organizationName = row.uname;
             event.organizationCity = row.city;
             event.organizationState = row.state;
             event.createdAt = row.created_at;

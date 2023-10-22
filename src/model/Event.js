@@ -10,7 +10,7 @@ const REASONS = {
     DESASTRES_NATURAIS: 'Desastres naturais',
     SERVIÇOS_SOCIAIS: 'Serviços sociais',
     COLETA_DE_LIXO: 'Coleta de lixo',
-    SAUDE_DA_COMUNIDADE: 'Sáude da comunidade',
+    SAUDE_DA_COMUNIDADE: 'Saúde da comunidade',
     CAUSA_ANIMAL: 'Causa animal'
 };
 
